@@ -662,7 +662,7 @@ HRESULT BoardPinsClass::_setPinPwm(ULONG pin)
     if (SUCCEEDED(hr))
     {
         // Set the pin to be an output.
-        hr = setPinMode(pin, DIRECTION_OUT, FALSE);
+        hr = setPinMode(pin, DIRECTION_OUT, ResistorMode::None);
     }
 
     return hr;
@@ -696,7 +696,7 @@ HRESULT BoardPinsClass::_setPinAnalogInput(ULONG pin)
     // Make sure the digital I/O functions on this pin are set to INPUT without pull-up.
     if (SUCCEEDED(hr))
     {
-        hr = setPinMode(pin, DIRECTION_IN, FALSE);
+        hr = setPinMode(pin, DIRECTION_IN, ResistorMode::None);
     }
 
     return hr;
@@ -793,7 +793,7 @@ This method sets the mode and drive type of a pin (Input, Output, etc.)
 \param[in] pullup True to enable pin pullup resistor, false to disable pullup
 \return HRESULT success or error code.
 */
-HRESULT BoardPinsClass::setPinMode(ULONG pin, ULONG mode, BOOL pullup)
+HRESULT BoardPinsClass::setPinMode(ULONG pin, ULONG mode, ResistorMode rMode)
 {
     HRESULT hr = S_OK;
 
@@ -846,7 +846,7 @@ HRESULT BoardPinsClass::setPinMode(ULONG pin, ULONG mode, BOOL pullup)
     if (SUCCEEDED(hr))
     {
         // Configure the pin pullup as requested.
-        hr = _configurePinPullup(pin, pullup);
+        hr = _configurePinResistor(pin, rMode);
     }
 
     return hr;
@@ -958,7 +958,7 @@ verified the pin number to be in the valid range.
 \param[in] pullup True to turn pullup on, false to turn pullup off.
 \return HRESULT success or error code.
 */
-HRESULT BoardPinsClass::_configurePinPullup(ULONG pin, BOOL pullup)
+HRESULT BoardPinsClass::_configurePinResistor(ULONG pin, ResistorMode mode)
 {
     HRESULT hr = S_OK;
 
@@ -967,7 +967,7 @@ HRESULT BoardPinsClass::_configurePinPullup(ULONG pin, BOOL pullup)
     if (SUCCEEDED(hr))
     {
 #if defined (_M_ARM)
-        hr = g_bcmGpio.setPinPullup(m_PinAttributes[pin].portBit, pullup);
+        hr = g_bcmGpio.setPinResistor(m_PinAttributes[pin].portBit, mode);
 #endif // defined (_M_ARM)
 
         // Nothing is needed here for MBM pins.  MBM GPIO pins have pullups

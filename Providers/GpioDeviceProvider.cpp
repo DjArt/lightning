@@ -107,7 +107,7 @@ void LightningGpioPinProvider::SetDriveModeInternal(
 {
     HRESULT hr = S_OK;
     ULONG direction = DIRECTION_IN;
-    BOOL pullUp = FALSE;
+	ResistorMode mode = ResistorMode::None;
     switch (value)
     {
     case ProviderGpioPinDriveMode::Input:
@@ -115,14 +115,19 @@ void LightningGpioPinProvider::SetDriveModeInternal(
     case ProviderGpioPinDriveMode::Output:
         direction = DIRECTION_OUT;
         break;
-    case ProviderGpioPinDriveMode::InputPullUp:
-        pullUp = TRUE;
-        break;
+#if defined(_M_ARM)
+	case ProviderGpioPinDriveMode::InputPullDown:
+		mode = ResistorMode::PullDown;
+		break;
+#endif
+	case ProviderGpioPinDriveMode::InputPullUp:
+		mode = ResistorMode::PullUp;
+		break;
     default:
         throw ref new Platform::NotImplementedException(L"Pin drive mode not implemented");
     }
 
-    hr = g_pins.setPinMode(_MappedPinNumber, direction, pullUp);
+	hr = g_pins.setPinMode(_MappedPinNumber, direction, mode);
 
     if (FAILED(hr))
     {

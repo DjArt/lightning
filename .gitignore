@@ -188,3 +188,4 @@ FakesAssemblies/
 *.opendb
 Library/Lightning.VC.db
 Public/*
+/Nuget/nuget.exe

@@ -16,6 +16,12 @@
 #include "concrt.h"
 #include "GpioInterrupt.h"
 
+enum ResistorMode : ULONG
+{
+	None = 0,
+	PullDown = 1,
+	PullUp = 2
+};
 
 #if defined(_M_IX86) || defined(_M_X64)
 /// Class used to interact with the BayTrail Fabric GPIO hardware.
@@ -307,7 +313,7 @@ public:
     inline HRESULT setPinFunction(ULONG gpioNo, ULONG function);
 
     /// Method to turn pin pullup on or off.
-    inline HRESULT setPinPullup(ULONG gpioNo, BOOL pullup);
+    inline HRESULT setPinResistor(ULONG gpioNo, ResistorMode mode);
 
     /// Method to attach to an interrupt on a GPIO port bit.
     HRESULT attachInterrupt(ULONG pin, std::function<void(void)> func, ULONG mode);
@@ -334,13 +340,6 @@ public:
     }
 
 private:
-
-    // Value to write to GPPUD to turn pullup/down off for pins.
-    const ULONG pullupOff = 0;
-
-    // Value to write to GPPUD to turn pullup on for a pin.
-    const ULONG pullupOn = 2;
-
     /// Layout of the BCM2836 GPIO Controller registers in memory.
     typedef struct _BCM_GPIO {
         ULONG   GPFSELN[6];         ///< 0x00-0x17 - Function select GPIO 00-53
@@ -893,7 +892,7 @@ This method assumes the caller has checked the input parameters.
 \param[in] pullup TRUE to turn pullup on for this pin, FALSE to turn it off.
 \return HRESULT error or success code.
 */
-inline HRESULT BcmGpioControllerClass::setPinPullup(ULONG gpioNo, BOOL pullup)
+inline HRESULT BcmGpioControllerClass::setPinResistor(ULONG gpioNo, ResistorMode mode)
 {
     HRESULT hr = S_OK;
     ULONG gpioPull = 0;
@@ -909,15 +908,6 @@ inline HRESULT BcmGpioControllerClass::setPinPullup(ULONG gpioNo, BOOL pullup)
 
     if (SUCCEEDED(hr))
     {
-        if (pullup)
-        {
-            gpioPull = pullupOn;
-        }
-        else
-        {
-            gpioPull = pullupOff;
-        }
-
         //
         // The sequence to set pullup/down for a pin is:
         // 1) Write desired state to GPPUD
@@ -929,7 +919,7 @@ inline HRESULT BcmGpioControllerClass::setPinPullup(ULONG gpioNo, BOOL pullup)
         //
         // 150 cycles is 0.25 microseconds with a cpu clock of 600 Mhz.
         //
-        m_registers->GPPUD = gpioPull;         // 1)
+        m_registers->GPPUD = mode;         // 1)
 
         timer.StartTimeout(1);
         while (!timer.TimeIsUp());              // 2)

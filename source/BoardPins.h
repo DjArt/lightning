@@ -124,7 +124,7 @@ public:
     LIGHTNING_DLL_API HRESULT getPinState(ULONG pin, ULONG & state);
 
     /// Method to set the direction of a pin (DIRECTION_IN or DIRECTION_OUT).
-    LIGHTNING_DLL_API HRESULT setPinMode(ULONG pin, ULONG mode, BOOL pullUp);
+    LIGHTNING_DLL_API HRESULT setPinMode(ULONG pin, ULONG mode, ResistorMode rMode);
 
     /// Method to verify that a pin is configured for the desired function.
     LIGHTNING_DLL_API HRESULT verifyPinFunction(ULONG pin, ULONG function, FUNC_LOCK_ACTION lockAction);
@@ -215,8 +215,8 @@ private:
     /// Method to choose between the input driver and output driver for an I/O pin.
     HRESULT _configurePinDrivers(ULONG pin, ULONG mode);
 
-    /// Method to turn the pullup resistor on or off for an I/O pin.
-    HRESULT _configurePinPullup(ULONG pin, BOOL pullUp);
+    /// Method to turn the resistor on or off for an I/O pin.
+    HRESULT _configurePinResistor(ULONG pin, ResistorMode mode);
 
     /// Method to set a mux to a desired state.
     HRESULT _setMux(ULONG pin, ULONG mux, ULONG selection);

@@ -25,7 +25,7 @@ HRESULT BtSpiControllerClass::configurePins(ULONG misoPin, ULONG mosiPin, ULONG 
     //
     // Set SCK and MOSI as outputs dedicated to SPI, and pulled LOW.
     //
-    hr = g_pins.setPinMode(m_sckPin, DIRECTION_OUT, FALSE);
+    hr = g_pins.setPinMode(m_sckPin, DIRECTION_OUT, ResistorMode::None);
 
     if (SUCCEEDED(hr))
     {
@@ -39,7 +39,7 @@ HRESULT BtSpiControllerClass::configurePins(ULONG misoPin, ULONG mosiPin, ULONG 
 
     if (SUCCEEDED(hr))
     {
-        hr = g_pins.setPinMode(m_mosiPin, DIRECTION_OUT, FALSE);
+        hr = g_pins.setPinMode(m_mosiPin, DIRECTION_OUT, ResistorMode::None);
     }
 
     if (SUCCEEDED(hr))
@@ -57,7 +57,7 @@ HRESULT BtSpiControllerClass::configurePins(ULONG misoPin, ULONG mosiPin, ULONG 
     //
     if (SUCCEEDED(hr))
     {
-        hr = g_pins.setPinMode(m_misoPin, DIRECTION_IN, FALSE);
+        hr = g_pins.setPinMode(m_misoPin, DIRECTION_IN, ResistorMode::None);
     }
 
     if (SUCCEEDED(hr))

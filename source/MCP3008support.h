@@ -69,7 +69,7 @@ public:
 
             if (SUCCEEDED(hr))
             {
-                hr = g_pins.setPinMode(m_csPin, DIRECTION_OUT, FALSE);
+                hr = g_pins.setPinMode(m_csPin, DIRECTION_OUT, ResistorMode::None);
 
                 if (SUCCEEDED(hr))
                 {

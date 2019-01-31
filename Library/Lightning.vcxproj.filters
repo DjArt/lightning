@@ -108,6 +108,9 @@
     <ClCompile Include="..\SDKFromArduino\source\WString.cpp">
       <Filter>SDKFromArduino\source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Providers\BcmGpioController.cpp">
+      <Filter>Lightning\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -253,8 +256,6 @@
     <ClInclude Include="..\SDKFromArduino\include\WString.h">
       <Filter>SDKFromArduino\include</Filter>
     </ClInclude>
-    <ClInclude Include="sources\Lightning.h">
-      <Filter>Lightning\include</Filter>
-    </ClInclude>
+    <ClInclude Include="..\source\Lightning.h" />
   </ItemGroup>
 </Project>

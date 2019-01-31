@@ -345,7 +345,7 @@ void pinMode(unsigned int pin, unsigned int mode)
     switch (mode)
     {
     case INPUT:
-        hr = g_pins.setPinMode(pin, DIRECTION_IN, false);
+        hr = g_pins.setPinMode(pin, DIRECTION_IN, ResistorMode::None);
 
         if (FAILED(hr))
         {
@@ -353,7 +353,7 @@ void pinMode(unsigned int pin, unsigned int mode)
         }
         break;
     case OUTPUT:
-        hr = g_pins.setPinMode(pin, DIRECTION_OUT, false);
+        hr = g_pins.setPinMode(pin, DIRECTION_OUT, ResistorMode::None);
 
         if (FAILED(hr))
         {
@@ -361,7 +361,7 @@ void pinMode(unsigned int pin, unsigned int mode)
         }
         break;
     case INPUT_PULLUP:
-        hr = g_pins.setPinMode(pin, DIRECTION_IN, true);
+        hr = g_pins.setPinMode(pin, DIRECTION_IN, ResistorMode::PullUp);
 
         if (FAILED(hr))
         {
