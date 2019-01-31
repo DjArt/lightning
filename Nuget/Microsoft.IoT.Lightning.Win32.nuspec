@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.IoT.Lightning.Win32</id>
+    <version>1.1.1-Beta1</version>
+    <title>Microsoft IoT Lightning SDK</title>
+    <authors>Microsoft Open Technologies, Inc.</authors>
+    <owners>Microsoft Open Technologies, Inc.</owners>
+    <licenseUrl>http://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx</licenseUrl>
+    <projectUrl>https://github.com/ms-iot/lightning</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The Lightning SDK allows rapid creation of applications for Windows Iot Core devices using the familiar Arduino interface.</description>
+    <summary>Microsoft IoT Lightning SDK</summary>
+    <releaseNotes />
+    <copyright>Copyright 2016</copyright>
+    <tags>lightning arduino microsoft native nativepackage</tags>
+  </metadata>
+
+    <files>
+
+    <file target="build\native\Microsoft.IoT.Lightning.Win32.targets"                src="Microsoft.IoT.Lightning.targets" />
+
+
+    <file target="runtimes\win10-x86\lib\uap10.0\LightningWin32.dll"                 src="..\LibraryWin32\Release\LightningWin32.dll" />
+    <file target="runtimes\win10-x64\lib\uap10.0\LightningWin32.dll"                 src="..\LibraryWin32\x64\Release\LightningWin32.dll" />
+    <file target="runtimes\win10-x86\lib\netcoreapp2.1\LightningWin32.dll"           src="..\LibraryWin32\Release\LightningWin32.dll" />
+    <file target="runtimes\win10-x64\lib\netcoreapp2.1\LightningWin32.dll"           src="..\LibraryWin32\x64\Release\LightningWin32.dll" />
+
+    <file target="include"                                                           src="..\Source\*.h" />
+    <file target="include\avr"                                                       src="..\Source\avr\*.h" />
+    <file target="include"                                                           src="..\SDKFromArduino\include\*.h" />
+
+  </files>
+</package>
